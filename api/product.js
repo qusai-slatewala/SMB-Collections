@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
   // Put your PUBLIC Google Sheet CSV link inside these quotes
-  const GOOGLE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/.../pub?output=csv';
+  const GOOGLE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTy40h0_CHqbhwXNq9Ztf1agTn3EMM_c1YKVevPi_rPs5XKQOIgfsgTj7eLiv1jUpjRL1MbcjM-cyGQ/pub?gid=0&single=true&output=csv';
 
   try {
     // The server fetches the sheet secretly
