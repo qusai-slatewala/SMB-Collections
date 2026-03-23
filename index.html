@@ -646,7 +646,7 @@
 //         → Sheet: "Form Response 1" → Format: CSV → Publish
 //         → Copy the link and paste it below
 // ═══════════════════════════════════════════════════════
-var SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRNAYvV9cyXTBkQvvpP-9tTKBwgvvdaFyhkcF0keoPkOB426hPyea9Phpu6tNplbTvSmd5mP_2R2nUL/pub?gid=389362513&single=true&output=csv';
+var SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTy40h0_CHqbhwXNq9Ztf1agTn3EMM_c1YKVevPi_rPs5XKQOIgfsgTj7eLiv1jUpjRL1MbcjM-cyGQ/pub?gid=0&single=true&output=csv';
 
 // Formsubmit
 var FS_PRIMARY = 'https://formsubmit.co/ajax/mslatewalla@gmail.com';
@@ -1106,7 +1106,7 @@ document.getElementById('cartEnquiryForm').addEventListener('submit',function(e)
     headers:{'Content-Type':'application/json','Accept':'application/json'},
     body:JSON.stringify({
       _subject:'Cart Enquiry – SMB Collection ('+form.name.value+')',
-      _cc:FS_CC, _captcha:'false', _template:'table',
+      _cc:FS_CC, _captcha:'true', _template:'table',
       Name:form.name.value, Phone:form.phone.value, Email:form.email.value||'—',
       'Cart Items':cartSummary, Notes:form.notes.value||'—',
       'Total Value':'₹'+totalVal
@@ -1155,7 +1155,7 @@ document.getElementById('enquiryForm').addEventListener('submit',function(e){
     method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
     body:JSON.stringify({
       _subject:'Product Enquiry: '+form.dataset.name+' ('+form.dataset.code+')',
-      _cc:FS_CC,_captcha:'false',_template:'table',
+      _cc:FS_CC,_captcha:'true',_template:'table',
       Product:form.dataset.name,Code:form.dataset.code,Price:form.dataset.price,
       Name:form.name.value,Email:form.email.value,Phone:form.phone.value,
       Quantity:form.quantity.value,Message:form.message.value
@@ -1180,7 +1180,7 @@ document.getElementById('generalForm').addEventListener('submit',function(e){
   fetch(FS_PRIMARY,{
     method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
     body:JSON.stringify({
-      _subject:'General Enquiry – SMB Collection',_cc:FS_CC,_captcha:'false',_template:'table',
+      _subject:'General Enquiry – SMB Collection',_cc:FS_CC,_captcha:'true',_template:'table',
       Name:form.name.value,Email:form.email.value,Phone:form.phone.value,Message:form.message.value
     })
   }).then(function(r){return r.json();})
