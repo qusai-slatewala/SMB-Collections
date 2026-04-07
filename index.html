@@ -734,7 +734,8 @@ function parseProducts(csvText) {
 
     // First drive image
     var driveMatch = photo.match(/id=([A-Za-z0-9_-]+)/);
-    var imgUrl = driveMatch ? 'https://drive.google.com/thumbnail?id='+driveMatch[1]+'&sz=w400' : '';
+   // Increased thumbnail size to 1000px for high-quality, crisp rendering
+var imgUrl = driveMatch ? 'https://drive.google.com/thumbnail?id='+driveMatch[1]+'&sz=w1200' : '';
 
     var bal = 0;
     try { bal = parseInt(parseFloat(balance.replace(/[₹,]/g,''))||0); } catch(e){}
