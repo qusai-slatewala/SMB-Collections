@@ -243,16 +243,29 @@
 <!-- Sync status pill -->
 <div id="syncStatus"></div>
 
-<!-- ZOOM MODAL -->
+<!-- MODERN ZOOM MODAL -->
 <div class="zoom-overlay" id="zoomOverlay">
-  <div class="zoom-container">
+  <div class="zoom-card">
     <button class="zoom-close" id="zoomClose">✕</button>
-    <img id="zoomImg" src="" alt=""/>
-    <div class="zoom-info">
-      <div class="zoom-name" id="zoomName"></div>
-      <div class="zoom-code" id="zoomCode"></div>
+    
+    <div class="zoom-left" id="magArea">
+      <img id="zoomImg" src="" alt=""/>
     </div>
-    <div class="zoom-hint">Click anywhere to close</div>
+    
+    <div class="zoom-right">
+      <div class="sec-label">Style Details</div>
+      <h2 id="zoomName"></h2>
+      <p id="zoomCode"></p>
+      
+      <div id="zoomPrice" class="zoom-price-tag"></div>
+      
+      <p style="font-size: 0.8rem; color: var(--muted); margin-bottom: 2rem;">
+        Premium quality material. Designed for comfort and durability. 
+        Part of our exclusive 2025 collection.
+      </p>
+
+      <button class="cart-enquiry-btn" id="zoomEnquiryBtn" style="width: 100%;">Enquire Now</button>
+    </div>
   </div>
 </div>
 
@@ -865,32 +878,67 @@ document.querySelectorAll('.price-btn').forEach(function(btn){
   });
 });
 
-// ═══ ZOOM ═══
+// ═══ ENHANCED ZOOM & MAGNIFIER ═══
+const zoomOverlay = document.getElementById('zoomOverlay');
+const zoomImg = document.getElementById('zoomImg');
+const magArea = document.getElementById('magArea');
+
 document.addEventListener('click', function(e) {
-  var img = e.target;
+  const img = e.target;
   if (!img.classList || !img.classList.contains('zoomable')) return;
+
+  // Populate Details
   document.getElementById('zoomImg').src = img.src;
   document.getElementById('zoomName').textContent = img.getAttribute('data-name') || '';
   document.getElementById('zoomCode').textContent = img.getAttribute('data-code') || '';
-  document.getElementById('zoomOverlay').classList.add('open');
+  
+  // Find price from the product list
+  const code = img.getAttribute('data-code');
+  const product = allProducts.find(p => p.code === code);
+  document.getElementById('zoomPrice').textContent = product ? product.price : '';
+
+  zoomOverlay.classList.add('open');
   document.body.style.overflow = 'hidden';
 });
-document.getElementById('zoomOverlay').addEventListener('click', function() {
-  document.getElementById('zoomOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-});
-document.getElementById('zoomClose').addEventListener('click', function(e) {
-  e.stopPropagation();
-  document.getElementById('zoomOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-});
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    document.getElementById('zoomOverlay').classList.remove('open');
-    document.body.style.overflow = '';
-  }
+
+// Magnifier Logic
+magArea.addEventListener('mousemove', function(e) {
+  // Only zoom on desktop (if screen width > 768)
+  if (window.innerWidth < 768) return;
+
+  const { left, top, width, height } = magArea.getBoundingClientRect();
+  const x = ((e.pageX - left - window.scrollX) / width) * 100;
+  const y = ((e.pageY - top - window.scrollY) / height) * 100;
+
+  zoomImg.style.transformOrigin = `${x}% ${y}%`;
+  zoomImg.style.transform = "scale(2.5)";
 });
 
+magArea.addEventListener('mouseleave', function() {
+  zoomImg.style.transform = "scale(1)";
+  zoomImg.style.transformOrigin = "center";
+});
+
+// Close logic
+function closeZoom() {
+  zoomOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('zoomClose').addEventListener('click', closeZoom);
+zoomOverlay.addEventListener('click', function(e) {
+  if (e.target === zoomOverlay) closeZoom();
+});
+
+// Link "Enquire Now" in zoom to the existing enquiry modal
+document.getElementById('zoomEnquiryBtn').addEventListener('click', function() {
+    const code = document.getElementById('zoomCode').textContent;
+    const product = allProducts.find(p => p.code === code);
+    if(product) {
+        closeZoom();
+        openEnquiry(product);
+    }
+});
 // ═══ START ═══
 gtag('event','page_view');
 init();
