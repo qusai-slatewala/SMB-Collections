@@ -275,122 +275,129 @@
     .add-cart-btn{border-color:var(--gold);color:var(--gold);background:transparent}
     .add-cart-btn:hover,.add-cart-btn.in-cart{background:var(--gold);color:var(--navy)}
 
-    /* ZOOM MODAL */
+    
    /* MODERN PRODUCT DETAIL MODAL */
+/* MODERN PRODUCT DETAIL MODAL - REVISED */
 .zoom-overlay {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(5, 3, 15, 0.95);
+  background: rgba(10, 6, 30, 0.98); /* Darker backdrop */
   z-index: 2000;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
-  backdrop-filter: blur(10px);
+  padding: 1rem;
+  backdrop-filter: blur(12px);
 }
 
 .zoom-overlay.open { display: flex; }
 
 .zoom-card {
-  background: var(--white);
+  background: #FFFFFF; /* Pure white background for visibility */
   display: flex;
   width: 100%;
-  max-width: 900px;
-  max-height: 90vh;
-  border-radius: 8px;
+  max-width: 1100px; /* Slightly wider for laptop */
+  height: 85vh;
+  border-radius: 12px;
   overflow: hidden;
   position: relative;
-  box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+  box-shadow: 0 40px 100px rgba(0,0,0,0.6);
 }
 
 .zoom-left {
-  flex: 1.2;
-  background: #f4f4f4;
+  flex: 1.5; /* Larger area for image */
+  background: #fdfdfd;
   position: relative;
-  overflow: hidden;
-  cursor: crosshair;
+  overflow: hidden; /* This keeps the zoom inside the box */
+  cursor: zoom-in;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-right: 1px solid #eee;
 }
 
-/* The Magnifier Effect */
 #zoomImg {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  transition: transform 0.1s ease-out;
-  transform-origin: center;
+  object-fit: contain; /* Keeps 16:9 images fully visible */
+  transition: transform 0.15s ease-out;
+  pointer-events: none; /* Let the container handle mouse events */
 }
 
 .zoom-right {
   flex: 1;
-  padding: 3rem;
+  padding: 3.5rem 2.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  background: white;
-  border-left: 1px solid var(--warm);
+  background: #FFFFFF;
+  overflow-y: auto; /* Allows scrolling if text is long */
 }
+
+/* Color Visibility Fixes */
+.zoom-right .sec-label { color: var(--gold) !important; margin-bottom: 1rem; }
 
 #zoomName {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 2.5rem;
-  color: var(--navy);
+  font-size: 2.4rem;
+  color: #1a1040 !important; /* Forced Navy */
   margin-bottom: 0.5rem;
-  line-height: 1.1;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 #zoomCode {
-  font-size: 0.9rem;
-  letter-spacing: 0.2em;
-  color: var(--muted);
-  text-transform: uppercase;
-  margin-bottom: 2rem;
-  border-bottom: 1px solid var(--gold-dim);
+  font-size: 1rem;
+  color: #5a4535 !important; /* Forced Muted Brown */
+  letter-spacing: 0.1em;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #f0e6cc;
   padding-bottom: 1rem;
 }
 
-.zoom-price-tag {
-  font-size: 1.8rem;
+#zoomPrice {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
   font-weight: 700;
-  color: var(--brown);
-  margin-bottom: 2rem;
+  color: #3d2010 !important; /* Forced Dark Brown */
+  margin-bottom: 1.5rem;
+}
+
+.zoom-desc {
+  font-size: 0.95rem;
+  color: #333 !important;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
 }
 
 .zoom-close {
   position: absolute;
-  top: 1rem;
+  top: 1.5rem;
   right: 1.5rem;
-  background: var(--navy);
-  color: white;
+  background: #1a1040;
+  color: #fff;
   border: none;
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   cursor: pointer;
-  z-index: 10;
-  transition: all 0.2s;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
 }
 
-.zoom-close:hover { background: var(--gold); transform: rotate(90deg); }
+.zoom-close:hover { background: var(--gold); }
 
-/* Mobile Adjustments */
-@media (max-width: 768px) {
-  .zoom-card {
-    flex-direction: column;
-    max-height: 95vh;
-    overflow-y: auto;
-  }
-  .zoom-left {
-    height: 350px;
-    flex: none;
-  }
-  .zoom-right {
-    padding: 2rem;
-    flex: none;
-  }
+/* Laptop/Desktop Scroll handling */
+.zoom-right::-webkit-scrollbar { width: 6px; }
+.zoom-right::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 10px; }
+
+@media (max-width: 900px) {
+  .zoom-card { flex-direction: column; height: 95vh; }
+  .zoom-left { height: 45%; flex: none; border-right: none; border-bottom: 1px solid #eee; }
+  .zoom-right { padding: 2rem; flex: none; height: 55%; }
   #zoomName { font-size: 1.8rem; }
 }
     /* NO RESULTS */
