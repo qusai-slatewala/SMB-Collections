@@ -252,20 +252,17 @@
       <img id="zoomImg" src="" alt=""/>
     </div>
     
-    <div class="zoom-right">
-      <div class="sec-label">Style Details</div>
-      <h2 id="zoomName"></h2>
-      <p id="zoomCode"></p>
-      
-      <div id="zoomPrice" class="zoom-price-tag"></div>
-      
-      <p style="font-size: 0.8rem; color: var(--muted); margin-bottom: 2rem;">
-        Premium quality material. Designed for comfort and durability. 
-        Part of our exclusive 2025 collection.
-      </p>
-
-      <button class="cart-enquiry-btn" id="zoomEnquiryBtn" style="width: 100%;">Enquire Now</button>
-    </div>
+   <div class="zoom-right">
+  <div class="sec-label">Style Details</div>
+  <h2 id="zoomName"></h2>
+  <p id="zoomCode"></p>
+  <div id="zoomPrice"></div>
+  <!-- New Description Block -->
+  <p class="zoom-desc" id="zoomDesc">
+    Premium comfort wear from SMB Collection. Hand-selected style featuring high-quality fabric and durable stitching.
+  </p>
+  <button class="cart-enquiry-btn" id="zoomEnquiryBtn" style="width: 100%;">Enquire Now</button>
+</div>
   </div>
 </div>
 
@@ -878,65 +875,81 @@ document.querySelectorAll('.price-btn').forEach(function(btn){
   });
 });
 
-// ═══ ENHANCED ZOOM & MAGNIFIER ═══
+// ═══ ENHANCED ZOOM & MAGNIFIER - REVISED ═══
 const zoomOverlay = document.getElementById('zoomOverlay');
 const zoomImg = document.getElementById('zoomImg');
 const magArea = document.getElementById('magArea');
 
 document.addEventListener('click', function(e) {
   const img = e.target;
-  if (!img.classList || !img.classList.contains('zoomable')) return;
+  // Check if what was clicked is a product image
+  if (!img || !img.classList.contains('zoomable')) return;
 
-  // Populate Details
-  document.getElementById('zoomImg').src = img.src;
+  // 1. Set the Image Source
+  zoomImg.src = img.src;
+
+  // 2. Set the Name and Code from attributes
   document.getElementById('zoomName').textContent = img.getAttribute('data-name') || '';
   document.getElementById('zoomCode').textContent = img.getAttribute('data-code') || '';
   
-  // Find price from the product list
+  // 3. Find the price and description from your product data
   const code = img.getAttribute('data-code');
   const product = allProducts.find(p => p.code === code);
-  document.getElementById('zoomPrice').textContent = product ? product.price : '';
+  
+  if (product) {
+    document.getElementById('zoomPrice').textContent = product.price;
+    // This updates the description text
+    document.getElementById('zoomDesc').textContent = "This " + product.name + " (" + product.code + ") is a premium quality item from our " + product.gender + " " + product.type + " collection. Designed for daily comfort and long-lasting durability.";
+  }
 
+  // 4. Open the Window
   zoomOverlay.classList.add('open');
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden'; // Stop the background from scrolling
 });
 
-// Magnifier Logic
+// Smarter Magnifier for Laptop/Desktop
 magArea.addEventListener('mousemove', function(e) {
-  // Only zoom on desktop (if screen width > 768)
-  if (window.innerWidth < 768) return;
+  // Only run this if the screen is wider than 900px (Laptop)
+  if (window.innerWidth < 900) return;
 
-  const { left, top, width, height } = magArea.getBoundingClientRect();
-  const x = ((e.pageX - left - window.scrollX) / width) * 100;
-  const y = ((e.pageY - top - window.scrollY) / height) * 100;
+  const rect = magArea.getBoundingClientRect();
+  
+  // Calculate mouse position relative to the image box
+  const x = ((e.clientX - rect.left) / rect.width) * 100;
+  const y = ((e.clientY - rect.top) / rect.height) * 100;
 
+  // Apply the zoom and move the "origin" to where the mouse is
   zoomImg.style.transformOrigin = `${x}% ${y}%`;
-  zoomImg.style.transform = "scale(2.5)";
+  zoomImg.style.transform = "scale(2.2)"; 
 });
 
+// Reset zoom when mouse leaves the image
 magArea.addEventListener('mouseleave', function() {
   zoomImg.style.transform = "scale(1)";
   zoomImg.style.transformOrigin = "center";
 });
 
-// Close logic
+// Close the Detail View
 function closeZoom() {
   zoomOverlay.classList.remove('open');
-  document.body.style.overflow = '';
+  document.body.style.overflow = ''; // Let the background scroll again
 }
 
+// Close button click
 document.getElementById('zoomClose').addEventListener('click', closeZoom);
+
+// Click anywhere on the dark background to close
 zoomOverlay.addEventListener('click', function(e) {
   if (e.target === zoomOverlay) closeZoom();
 });
 
-// Link "Enquire Now" in zoom to the existing enquiry modal
+// Link the "Enquire Now" button inside the zoom view to your form
 document.getElementById('zoomEnquiryBtn').addEventListener('click', function() {
     const code = document.getElementById('zoomCode').textContent;
     const product = allProducts.find(p => p.code === code);
     if(product) {
         closeZoom();
-        openEnquiry(product);
+        openEnquiry(product); // This opens your existing enquiry form
     }
 });
 // ═══ START ═══
