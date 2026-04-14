@@ -276,17 +276,123 @@
     .add-cart-btn:hover,.add-cart-btn.in-cart{background:var(--gold);color:var(--navy)}
 
     /* ZOOM MODAL */
-    .zoom-overlay{display:none;position:fixed;inset:0;background:rgba(5,3,15,.92);z-index:600;align-items:center;justify-content:center;padding:1.5rem;cursor:zoom-out;backdrop-filter:blur(8px)}
-    .zoom-overlay.open{display:flex}
-    .zoom-container{position:relative;max-width:min(85vw,700px);max-height:85vh}
-    .zoom-container img{width:100%;height:100%;object-fit:contain;border:1px solid rgba(201,168,76,.2);box-shadow:0 30px 80px rgba(0,0,0,.7)}
-    .zoom-info{position:absolute;bottom:0;left:0;right:0;padding:.75rem 1rem;background:linear-gradient(to top,rgba(10,6,30,.95),transparent);text-align:center}
-    .zoom-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--cream);font-weight:600}
-    .zoom-code{font-size:.6rem;letter-spacing:.15em;color:rgba(201,168,76,.6);text-transform:uppercase;margin-top:.2rem}
-    .zoom-close{position:absolute;top:-2.5rem;right:0;background:none;border:none;color:rgba(245,237,214,.6);font-size:1.5rem;cursor:pointer;padding:.25rem .5rem}
-    .zoom-close:hover{color:var(--gold)}
-    .zoom-hint{position:absolute;top:.6rem;right:.6rem;background:rgba(10,6,30,.7);color:rgba(245,237,214,.5);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;padding:.2rem .55rem;border:1px solid rgba(201,168,76,.15);border-radius:1px;pointer-events:none}
+   /* MODERN PRODUCT DETAIL MODAL */
+.zoom-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 3, 15, 0.95);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+}
 
+.zoom-overlay.open { display: flex; }
+
+.zoom-card {
+  background: var(--white);
+  display: flex;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+}
+
+.zoom-left {
+  flex: 1.2;
+  background: #f4f4f4;
+  position: relative;
+  overflow: hidden;
+  cursor: crosshair;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The Magnifier Effect */
+#zoomImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.1s ease-out;
+  transform-origin: center;
+}
+
+.zoom-right {
+  flex: 1;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: white;
+  border-left: 1px solid var(--warm);
+}
+
+#zoomName {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem;
+  color: var(--navy);
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+}
+
+#zoomCode {
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--gold-dim);
+  padding-bottom: 1rem;
+}
+
+.zoom-price-tag {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--brown);
+  margin-bottom: 2rem;
+}
+
+.zoom-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  background: var(--navy);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s;
+}
+
+.zoom-close:hover { background: var(--gold); transform: rotate(90deg); }
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .zoom-card {
+    flex-direction: column;
+    max-height: 95vh;
+    overflow-y: auto;
+  }
+  .zoom-left {
+    height: 350px;
+    flex: none;
+  }
+  .zoom-right {
+    padding: 2rem;
+    flex: none;
+  }
+  #zoomName { font-size: 1.8rem; }
+}
     /* NO RESULTS */
     .no-results{text-align:center;padding:4rem 2rem;grid-column:1/-1}
     .no-results h3{font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--navy);margin-bottom:.5rem}
